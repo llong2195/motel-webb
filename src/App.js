@@ -20,8 +20,15 @@ const App = () => {
           <Route path="/post" exact component={Home} />
           <Route path="/post/search" exact component={Home} />
           <Route path="/post/:id" exact component={PostDetails} />
-          <Route path={['/creators/:name', '/tags/:name']} component={CreatorOrTag} />
-          <Route path="/auth" exact component={() => (!user ? <Auth /> : <Redirect to="/post" />)} />
+          <Route
+            path={['/creators/:name', '/tags/:name']}
+            component={CreatorOrTag}
+          />
+          <Route
+            path="/auth"
+            exact
+            component={() => (!user ? <Auth /> : <Redirect to="/post" />)}
+          />
         </Switch>
       </Container>
     </BrowserRouter>

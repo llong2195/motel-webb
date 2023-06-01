@@ -10,8 +10,8 @@ import {
   LIKE,
   COMMENT,
   FETCH_BY_CREATOR,
-} from "../constants/actionTypes";
-import * as api from "../api/index.js";
+} from '../constants/actionTypes';
+import * as api from '../api/index.js';
 
 export const getPost = (id) => async (dispatch) => {
   try {
@@ -65,7 +65,7 @@ export const getPostsBySearch =
         title,
         address,
         minPrice,
-        maxPrice
+        maxPrice,
       );
 
       dispatch({ type: FETCH_BY_SEARCH, payload: { data: data.data } });
@@ -99,10 +99,10 @@ export const updatePost = (id, post) => async (dispatch) => {
 };
 
 export const likePost = (id) => async (dispatch) => {
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const user = JSON.parse(localStorage.getItem('profile'));
 
   try {
-    const { data } = await api.likePost(id, user?.token);
+    const { data } = await api.likePost(id, user?.access_token);
 
     dispatch({ type: LIKE, payload: data });
   } catch (error) {

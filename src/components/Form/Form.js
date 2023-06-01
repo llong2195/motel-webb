@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   TextField,
   Button,
@@ -12,36 +12,36 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import FileBase from "react-file-base64";
-import { useHistory } from "react-router-dom";
-import ChipInput from "material-ui-chip-input";
+} from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import FileBase from 'react-file-base64';
+import { useHistory } from 'react-router-dom';
+import ChipInput from 'material-ui-chip-input';
 
-import { createPost, updatePost } from "../../actions/posts";
-import useStyles from "./styles";
+import { createPost, updatePost } from '../../actions/posts';
+import useStyles from './styles';
 
 const Form = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) =>
     currentId
       ? state.posts.posts.find((message) => message._id === currentId)
-      : null
+      : null,
   );
   const dispatch = useDispatch();
   const classes = useStyles();
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const user = JSON.parse(localStorage.getItem('profile'));
   const history = useHistory();
   const [postData, setPostData] = useState({
     authorId: user?.id,
-    title: "",
-    detail: "",
+    title: '',
+    detail: '',
     price: 0,
     minPrice: 0,
     maxPrice: 0,
     time_unit: 0,
-    address: "",
+    address: '',
     postType: 0,
-    image: "",
+    image: '',
   });
   const [selectedValue, setSelectedValue] = React.useState(0);
   const handleChange = (event) => {
@@ -52,15 +52,15 @@ const Form = ({ currentId, setCurrentId }) => {
     setCurrentId(0);
     setPostData({
       authorId: user?.id,
-      title: "",
-      detail: "",
+      title: '',
+      detail: '',
       price: 0,
       minPrice: 0,
       maxPrice: 0,
       time_unit: 0,
-      address: "",
+      address: '',
       postType: 0,
-      image: "",
+      image: '',
     });
   };
 
@@ -91,17 +91,6 @@ const Form = ({ currentId, setCurrentId }) => {
     );
   }
 
-  const handleAddChip = (tag) => {
-    setPostData({ ...postData, tags: [...postData.tags, tag] });
-  };
-
-  const handleDeleteChip = (chipToDelete) => {
-    setPostData({
-      ...postData,
-      tags: postData.tags.filter((tag) => tag !== chipToDelete),
-    });
-  };
-
   return (
     <Paper className={classes.paper} elevation={6}>
       <form
@@ -111,9 +100,9 @@ const Form = ({ currentId, setCurrentId }) => {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">
-          {currentId ? `Editing "${post?.title}"` : "Creating a Memory"}
+          {currentId ? `Chỉnh Sửa "${post?.title}"` : 'Đăng Bài'}
         </Typography>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: 'flex' }}>
           <div>
             <Radio
               checked={postData.postType === 0}
@@ -151,7 +140,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <TextField
           name="address"
           variant="outlined"
-          label={postData.postType === 0 ? "Địa chỉ cần tìm" : "Địa chỉ"}
+          label={postData.postType === 0 ? 'Địa chỉ cần tìm' : 'Địa chỉ'}
           fullWidth
           value={postData.address}
           onChange={(e) =>
@@ -159,7 +148,7 @@ const Form = ({ currentId, setCurrentId }) => {
           }
         />
         {postData.postType === 0 ? (
-          <div style={{ marginTop: 10, display: "flex", gap: 10 }}>
+          <div style={{ marginTop: 10, display: 'flex', gap: 10 }}>
             <TextField
               // onKeyDown={handleKeyPress}
               name="minPrice"
@@ -184,7 +173,7 @@ const Form = ({ currentId, setCurrentId }) => {
             />
           </div>
         ) : (
-          <div style={{ marginTop: 10, display: "flex", gap: 10 }}>
+          <div style={{ marginTop: 10, display: 'flex', gap: 10 }}>
             <TextField
               // onKeyDown={handleKeyPress}
               name="price"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Container,
   Grow,
@@ -11,16 +11,16 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from "@material-ui/core";
-import { useDispatch } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import ChipInput from "material-ui-chip-input";
+} from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import ChipInput from 'material-ui-chip-input';
 
-import { getPostsBySearch } from "../../actions/posts";
-import Posts from "../Posts/Posts";
-import Form from "../Form/Form";
-import Pagination from "../Pagination";
-import useStyles from "./styles";
+import { getPostsBySearch } from '../../actions/posts';
+import Posts from '../Posts/Posts';
+import Form from '../Form/Form';
+import Pagination from '../Pagination';
+import useStyles from './styles';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -28,20 +28,20 @@ function useQuery() {
 const Home = () => {
   const classes = useStyles();
   const query = useQuery();
-  const page = query.get("page") || 1;
-  const searchQuery = query.get("searchQuery");
+  const page = query.get('page') || 1;
+  const searchQuery = query.get('searchQuery');
 
   const [currentId, setCurrentId] = useState(0);
   const dispatch = useDispatch();
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [tags, setTags] = useState([]);
   const history = useHistory();
-  const [typePost, setTypePost] = React.useState("");
-  const [title, settitle] = React.useState("");
-  const [address, setaddress] = React.useState("");
-  const [minPrice, setminPrice] = React.useState("");
-  const [maxPrice, setmaxPrice] = React.useState("");
+  const [typePost, setTypePost] = React.useState('');
+  const [title, settitle] = React.useState('');
+  const [address, setaddress] = React.useState('');
+  const [minPrice, setminPrice] = React.useState('');
+  const [maxPrice, setmaxPrice] = React.useState('');
 
   const handleChange = (event) => {
     setTypePost(event.target.value);
@@ -49,13 +49,13 @@ const Home = () => {
   const searchPost = () => {
     if (search.trim() || tags) {
       dispatch(
-        getPostsBySearch(page, typePost, title, address, minPrice, maxPrice)
+        getPostsBySearch(page, typePost, title, address, minPrice, maxPrice),
       );
       history.push(
-        `/post/search?postType=${typePost}&title=${title}&address=${address}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+        `/post/search?postType=${typePost}&title=${title}&address=${address}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
       );
     } else {
-      history.push("/");
+      history.push('/');
     }
   };
 
@@ -90,7 +90,9 @@ const Home = () => {
               color="inherit"
             >
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Loại bài đăng</InputLabel>
+                <InputLabel id="demo-simple-select-label">
+                  Loại bài đăng
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -124,7 +126,7 @@ const Home = () => {
                 onChange={(e) => setaddress(e.target.value)}
                 style={{ marginTop: 10 }}
               />
-              <div style={{ marginTop: 10, display: "flex", gap: 10 }}>
+              <div style={{ marginTop: 10, display: 'flex', gap: 10 }}>
                 <TextField
                   onKeyDown={handleKeyPress}
                   name="min"

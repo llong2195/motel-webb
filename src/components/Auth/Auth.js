@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   Avatar,
   Button,
-  Paper,
-  Grid,
-  Typography,
   Container,
+  Grid,
+  Paper,
+  Typography,
 } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import { GoogleLogin } from 'react-google-login';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import Icon from './icon';
 import { signin, signup } from '../../actions/auth';
 import { AUTH } from '../../constants/actionTypes';
-import useStyles from './styles';
 import Input from './Input';
+import useStyles from './styles';
 
 const initialState = {
   phone: '',
@@ -61,22 +59,8 @@ const SignUp = () => {
     }
   };
 
-  const googleSuccess = async (res) => {
-    const result = res?.profileObj;
-    const token = res?.tokenId;
-
-    try {
-      dispatch({ type: AUTH, data: { result, token } });
-
-      history.push('/');
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const googleError = () => console.log('Google Sign In was unsuccessful. Try again later');
-
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
     <Container component="main" maxWidth="xs">
@@ -120,7 +104,7 @@ const SignUp = () => {
           >
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
                 {isSignup
