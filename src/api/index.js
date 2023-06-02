@@ -1,12 +1,12 @@
 import axios from 'axios';
+import Configuration from '../actions/config';
 
-const API = axios.create({ baseURL: 'http://103.166.183.203:3000' });
+const API = axios.create({ baseURL: Configuration.API_URL });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
-    req.headers.Authorization = `Bearer ${
-      JSON.parse(localStorage.getItem('profile')).token
-    }`;
+    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token
+      }`;
   }
 
   return req;

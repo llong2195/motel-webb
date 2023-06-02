@@ -111,7 +111,7 @@ const Form = ({ currentId, setCurrentId }) => {
               }
               value={0}
               name="postType"
-              // inputProps={{ "aria-label": 0 }}
+            // inputProps={{ "aria-label": 0 }}
             />
             Tìm phòng
           </div>
@@ -123,7 +123,7 @@ const Form = ({ currentId, setCurrentId }) => {
               }
               value={1}
               name="postType"
-              // inputProps={{ "aria-label": 1 }}
+            // inputProps={{ "aria-label": 1 }}
             />
             Cho thuê
           </div>
