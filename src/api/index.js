@@ -2,6 +2,7 @@ import axios from 'axios';
 import Configuration from '../actions/config';
 
 const API = axios.create({ baseURL: Configuration.API_URL });
+const user = JSON.parse(localStorage.getItem('profile'))
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
@@ -12,10 +13,13 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchPost = (id) =>
-  API.get(`/post?userId=0&code=0&limit=0&page=0&id=${id}`);
-export const fetchPosts = (page) =>
-  API.get(`/post?userId=0&code=0&page=${page}&limit=8`);
+export const fetchPost = (id) => {
+  return API.get(`/post?userId=${user?.id || 0}&code=${user?.code || 0}&limit=0&page=0&id=${id}`);
+}
+export const fetchPosts = (page) => {
+  console.log(user);
+  return API.get(`/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8`);
+}
 export const fetchPostsByCreator = (name) =>
   API.get(`/post/creator?name=${name}`);
 export const fetchPostsBySearch = (
@@ -27,7 +31,7 @@ export const fetchPostsBySearch = (
   maxPrice,
 ) =>
   API.get(
-    `/post?userId=0&code=0&page=${page}&limit=8&postType=${typePost}&title=${title}&address=${address}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
+    `/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8&postType=${typePost}&title=${title}&address=${address}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
   );
 export const createPost = (newPost) => API.post('/post', newPost);
 export const likePost = (id) => API.patch(`/post/${id}/likePost`);

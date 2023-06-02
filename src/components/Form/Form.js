@@ -22,11 +22,11 @@ import { createPost, updatePost } from '../../actions/posts';
 import useStyles from './styles';
 
 const Form = ({ currentId, setCurrentId }) => {
-  const post = useSelector((state) =>
-    currentId
-      ? state.posts.posts.find((message) => message._id === currentId)
-      : null,
-  );
+  const post = useSelector((state) => {
+    return currentId
+      ? state.posts.posts.find((post) => post.id === currentId)
+      : null;
+  });
   const dispatch = useDispatch();
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -85,7 +85,7 @@ const Form = ({ currentId, setCurrentId }) => {
     return (
       <Paper className={classes.paper} elevation={6}>
         <Typography variant="h6" align="center">
-          Please Sign In to create your own memories and like other's memories.
+          Đăng nhập để sử dụng tính năng đăng bài
         </Typography>
       </Paper>
     );

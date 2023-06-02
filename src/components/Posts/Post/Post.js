@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 
-import { deletePost } from '../../../actions/posts';
+import { deletePost, getPost, updatePost } from '../../../actions/posts';
 import useStyles from './styles';
 
 const Post = ({ post, setCurrentId }) => {
@@ -26,7 +26,7 @@ const Post = ({ post, setCurrentId }) => {
   const history = useHistory();
   const classes = useStyles();
 
-  const userId = user?.googleId || user?.id;
+  const userId = user?.id || user?.id;
   // const hasLikedPost = post.likes.find((like) => like === userId);
 
   // const handleLike = async () => {
@@ -53,7 +53,7 @@ const Post = ({ post, setCurrentId }) => {
   // };
 
   const openPost = (e) => {
-    // dispatch(getPost(post._id, history));
+    // dispatch(getPost(post.id, history));
 
     history.push(`/post/${post.id}`);
   };
@@ -80,23 +80,23 @@ const Post = ({ post, setCurrentId }) => {
             {moment(post.createdAt).fromNow()}
           </Typography>
         </div>
-        {/* {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
-        <div className={classes.overlay2} name="edit">
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentId(post._id);
-            }}
-            style={{ color: 'white' }}
-            size="small"
-          >
-            <MoreHorizIcon fontSize="default" />
-          </Button>
+        {(user?.id === post?.author?.id) && (
+          <div className={classes.overlay2} name="edit">
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentId(post.id);
+              }}
+              style={{ color: 'white' }}
+              size="small"
+            >
+              <MoreHorizIcon fontSize="medium" />
+            </Button>
+          </div>
+        )}
+        <div className={classes.details}>
+          <Typography variant="body2" color="textSecondary" component="h2">{`${post.address}`}</Typography>
         </div>
-        )} */}
-        {/* <div className={classes.details}>
-          <Typography variant="body2" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
-        </div> */}
         <Typography
           className={classes.title}
           gutterBottom
@@ -112,14 +112,14 @@ const Post = ({ post, setCurrentId }) => {
         </CardContent>
       </ButtonBase>
       <CardActions className={classes.cardActions}>
-        {/* <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
+        {/* <Button size="small" color="primary" disabled={!user?.id} onClick={handleLike}>
           <Likes />
         </Button> */}
-        {/* {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
-          <Button size="small" color="secondary" onClick={() => dispatch(deletePost(post._id))}>
-            <DeleteIcon fontSize="small" /> &nbsp; Delete
+        {(user?.id === post?.author?.id) && (
+          <Button size="small" color="secondary" onClick={() => dispatch(updatePost(post.id, { status: post.status == 1 ? 0 : 1 }))}>
+            <DeleteIcon fontSize="small" /> &nbsp; {post.status == 0 ? 'Ẩn bài đăng' : 'Mở bài đăng'}
           </Button>
-        )} */}
+        )}
       </CardActions>
     </Card>
   );
