@@ -18,8 +18,9 @@ import FileBase from 'react-file-base64';
 import { useHistory } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
 
-import { createPost, updatePost } from '../../actions/posts';
+import { createPost, getPosts, updatePost } from '../../actions/posts';
 import useStyles from './styles';
+import { fetchPosts } from '../../api';
 
 const Form = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) => {
@@ -65,10 +66,10 @@ const Form = ({ currentId, setCurrentId }) => {
   };
 
   useEffect(() => {
-    if (!post?.title) clear();
+    if (!post?.id) clear();
     if (post) setPostData(post);
   }, [post]);
-
+  console.log('currentId', currentId);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -76,7 +77,8 @@ const Form = ({ currentId, setCurrentId }) => {
       dispatch(createPost({ ...postData, name: user?.name }, history));
       clear();
     } else {
-      dispatch(updatePost(currentId, { ...postData, name: user?.name }));
+      await dispatch(updatePost(currentId, { ...postData }));
+      await dispatch(getPosts(1))
       clear();
     }
   };

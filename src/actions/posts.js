@@ -90,9 +90,10 @@ export const createPost = (post, history) => async (dispatch) => {
 
 export const updatePost = (id, post) => async (dispatch) => {
   try {
-    const { data } = await api.updatePost(id, post);
-
-    dispatch({ type: UPDATE, payload: data });
+    await api.updatePost(id, post);
+    const { data } = await api.fetchPost(id);
+    console.log('data.data', data.data);
+    dispatch({ type: UPDATE, payload: { data: data.data[0] } });
   } catch (error) {
     console.log(error);
   }
@@ -122,10 +123,10 @@ export const commentPost = (value, id) => async (dispatch) => {
   }
 };
 
-export const deletePost = (id) => async (dispatch) => {
+export const deletePost = (id, post) => async (dispatch) => {
   try {
-    await await api.deletePost(id);
-
+    // await await api.deletePost(id);
+    const { data } = await api.updatePost(id, post);
     dispatch({ type: DELETE, payload: id });
   } catch (error) {
     console.log(error);

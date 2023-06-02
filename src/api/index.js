@@ -16,8 +16,7 @@ API.interceptors.request.use((req) => {
 export const fetchPost = (id) => {
   return API.get(`/post?userId=${user?.id || 0}&code=${user?.code || 0}&limit=0&page=0&id=${id}`);
 }
-export const fetchPosts = (page) => {
-  console.log(user);
+export const fetchPosts = (page, status = 0) => {
   return API.get(`/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8`);
 }
 export const fetchPostsByCreator = (name) =>
@@ -29,9 +28,10 @@ export const fetchPostsBySearch = (
   address,
   minPrice,
   maxPrice,
+  status = 1,
 ) =>
   API.get(
-    `/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8&postType=${typePost}&title=${title}&address=${address}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
+    `/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8&postType=${typePost}&title=${title}&address=${address}&minPrice=${minPrice}&maxPrice=${maxPrice}&status=${status}`,
   );
 export const createPost = (newPost) => API.post('/post', newPost);
 export const likePost = (id) => API.patch(`/post/${id}/likePost`);

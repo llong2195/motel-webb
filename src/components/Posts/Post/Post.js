@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 
-import { deletePost, getPost, updatePost } from '../../../actions/posts';
+import { deletePost, getPost, getPosts, updatePost } from '../../../actions/posts';
 import useStyles from './styles';
 
 const Post = ({ post, setCurrentId }) => {
@@ -25,7 +25,6 @@ const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
-
   const userId = user?.id || user?.id;
   // const hasLikedPost = post.likes.find((like) => like === userId);
 
@@ -69,13 +68,13 @@ const Post = ({ post, setCurrentId }) => {
         <CardMedia
           className={classes.media}
           image={
-            post.image.split(',')[0] ||
+            post?.image?.split(',')[0] ||
             'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'
           }
           title={post.title}
         />
         <div className={classes.overlay}>
-          <Typography variant="h6">{post.author.name}</Typography>
+          <Typography variant="h6">{post?.author?.name}</Typography>
           <Typography variant="body2">
             {moment(post.createdAt).fromNow()}
           </Typography>
@@ -107,7 +106,7 @@ const Post = ({ post, setCurrentId }) => {
         </Typography>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {post.detail.split(' ').splice(0, 20).join(' ')}...
+            {post?.detail?.split(' ').splice(0, 20).join(' ')}...
           </Typography>
         </CardContent>
       </ButtonBase>
@@ -116,7 +115,10 @@ const Post = ({ post, setCurrentId }) => {
           <Likes />
         </Button> */}
         {(user?.id === post?.author?.id) && (
-          <Button size="small" color="secondary" onClick={() => dispatch(updatePost(post.id, { status: post.status == 1 ? 0 : 1 }))}>
+          <Button size="small" color="secondary" onClick={async () => {
+            await dispatch(deletePost(post.id, { status: post.status == 1 ? 0 : 1 }))
+            await dispatch(getPosts(1))
+          }}>
             <DeleteIcon fontSize="small" /> &nbsp; {post.status == 0 ? 'Ẩn bài đăng' : 'Mở bài đăng'}
           </Button>
         )}
