@@ -22,13 +22,13 @@ export const fetchPosts = (page, status = 0) => {
 export const fetchPostsByCreator = (name) =>
   API.get(`/post/creator?name=${name}`);
 export const fetchPostsBySearch = (
-  page,
+  page = 1,
   typePost,
   title,
   address,
   minPrice,
   maxPrice,
-  status = 1,
+  status = 0,
 ) =>
   API.get(
     `/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8&postType=${typePost}&title=${title}&address=${address}&minPrice=${minPrice}&maxPrice=${maxPrice}&status=${status}`,
