@@ -22,6 +22,7 @@ import { createPost, getPosts, updatePost } from '../../actions/posts';
 import useStyles from './styles';
 import { fetchPosts } from '../../api';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import * as db from './../../actions/db'
 
 const Form = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) => {
@@ -47,6 +48,17 @@ const Form = ({ currentId, setCurrentId }) => {
     image: '',
   });
   const [selectedValue, setSelectedValue] = React.useState(0);
+  const [province, setProvince] = useState({
+    idProvince: '01',
+    name: 'Thành phố Hà Nội',
+  });
+  const [district, setDistrict] = useState({
+    idProvince: '01',
+    idDistrict: '001',
+    name: 'Quận Ba Đình',
+  });
+  const [addressDetail, setAddressDetail] = useState('');
+
   const handleChange = (event) => {
     setSelectedValue(Number(event.target.value));
   };
@@ -71,7 +83,20 @@ const Form = ({ currentId, setCurrentId }) => {
   useEffect(() => {
     if (!post?.id) clear();
     if (post) setPostData(post);
+    console.log(db.vn.province.filter(i => i.name == post?.address?.split(',')[2]))
+    setAddressDetail(post?.address?.split(',')[0] || '')
+    setDistrict(db.vn.district.filter(i => i.name == post?.address?.split(',')[1])[0])
+    setProvince(db.vn.province.filter(i => i.name == post?.address?.split(',')[2])[0])
   }, [post]);
+
+
+  useEffect(() => {
+    setPostData({
+      ...postData, address: `${addressDetail},${district?.name ? district?.name : ''
+        },${province?.name ? province?.name : ''}` || undefined
+    });
+  }, [district, province, addressDetail])
+
   console.log('currentId', currentId);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -143,14 +168,38 @@ const Form = ({ currentId, setCurrentId }) => {
           value={postData.title}
           onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
+
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={province?.idProvince}
+          label="Loại bài đăng"
+          onChange={(e) => { setProvince(db.vn.province.filter(i => i.idProvince == e.target.value)[0]); setDistrict('') }}
+        >
+          {db.vn.province.map((city) => {
+            return <MenuItem value={city.idProvince}>{city.name}</MenuItem>
+          })}
+
+        </Select>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={district?.idDistrict}
+          label="Loại bài đăng"
+          onChange={(e) => { setDistrict(db.vn.district.filter(i => i.idDistrict == e.target.value)[0]); }}
+        >
+          {db.vn.district.filter(i => i.idProvince === province?.idProvince).map(dis => {
+            return <MenuItem value={dis.idDistrict}>{dis.name}</MenuItem>
+          })}
+        </Select>
         <TextField
           name="address"
           variant="outlined"
           label={postData.postType === 0 ? 'Địa chỉ cần tìm' : 'Địa chỉ'}
           fullWidth
-          value={postData.address}
+          value={postData?.address?.split(',')[0] ?? ''}
           onChange={(e) =>
-            setPostData({ ...postData, address: e.target.value })
+            setAddressDetail(e.target.value)
           }
         />
         {postData.postType === 0 ? (
