@@ -21,6 +21,7 @@ import ChipInput from 'material-ui-chip-input';
 import { createPost, getPosts, updatePost } from '../../actions/posts';
 import useStyles from './styles';
 import { fetchPosts } from '../../api';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Form = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) => {
@@ -32,6 +33,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
   const history = useHistory();
+  const location = useLocation();
   const [postData, setPostData] = useState({
     authorId: user?.id,
     title: '',
@@ -48,6 +50,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const handleChange = (event) => {
     setSelectedValue(Number(event.target.value));
   };
+  console.log(post);
 
   const clear = () => {
     setCurrentId(0);
@@ -78,7 +81,8 @@ const Form = ({ currentId, setCurrentId }) => {
       clear();
     } else {
       await dispatch(updatePost(currentId, { ...postData }));
-      await dispatch(getPosts(1))
+      // await dispatch(getPosts(1))
+      history.go(0)
       clear();
     }
   };
@@ -109,7 +113,7 @@ const Form = ({ currentId, setCurrentId }) => {
             <Radio
               checked={postData.postType === 0}
               onChange={(e) =>
-                setPostData({ ...postData, postType: Number(e.target.value) })
+                setPostData({ ...postData, postType: 0 })
               }
               value={0}
               name="postType"
@@ -121,7 +125,7 @@ const Form = ({ currentId, setCurrentId }) => {
             <Radio
               checked={postData.postType === 1}
               onChange={(e) =>
-                setPostData({ ...postData, postType: Number(e.target.value) })
+                setPostData({ ...postData, postType: 1 })
               }
               value={1}
               name="postType"
@@ -192,7 +196,7 @@ const Form = ({ currentId, setCurrentId }) => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={postData.time_unit}
+                value={postData.time_unit || 0}
                 label="Tháng"
                 name="time_unit"
                 onChange={(e) =>

@@ -37,7 +37,7 @@ const Home = () => {
   const [search, setSearch] = useState('');
   const [tags, setTags] = useState([]);
   const history = useHistory();
-  const [typePost, setTypePost] = React.useState('');
+  const [typePost, setTypePost] = React.useState(2);
   const [title, settitle] = React.useState('');
   const [address, setaddress] = React.useState('');
   const [minPrice, setminPrice] = React.useState('');

@@ -23,7 +23,7 @@ export const fetchPostsByCreator = (id) =>
   API.get(`/post?userId=${user?.id || 0}&code=${user?.code || 0}&authorId=${id}`);
 export const fetchPostsBySearch = (
   page = 1,
-  typePost,
+  postType,
   title,
   address,
   minPrice,
@@ -31,7 +31,7 @@ export const fetchPostsBySearch = (
   status = 0,
 ) =>
   API.get(
-    `/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8&postType=${typePost}${title ?? `&title=${title}`}${address ?? `&address=${address}`}${minPrice ?? `&minPrice=${minPrice}`}${maxPrice ?? `&maxPrice=${maxPrice}`}&status=${status}`
+    `/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8${postType ? `&postType=${postType}` : ''}${title ? `&title=${title}` : ''}${address ? `&address=${address}` : ''}${minPrice ? `&minPrice=${minPrice}` : ''}${maxPrice ? `&maxPrice=${maxPrice}` : ''}&status=${status}`
   );
 export const createPost = (newPost) => API.post('/post', newPost);
 export const likePost = (id) => API.patch(`/post/${id}/likePost`);

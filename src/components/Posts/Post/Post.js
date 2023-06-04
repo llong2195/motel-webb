@@ -117,7 +117,8 @@ const Post = ({ post, setCurrentId }) => {
         {(user?.id === post?.author?.id) && (
           <Button size="small" color="secondary" onClick={async () => {
             await dispatch(deletePost(post.id, { status: post.status == 1 ? 0 : 1 }))
-            await dispatch(getPosts(1))
+            // await dispatch(getPosts(1))
+            history.go(0)
           }}>
             <DeleteIcon fontSize="small" /> &nbsp; {post.status == 0 ? 'Ẩn bài đăng' : 'Mở bài đăng'}
           </Button>
