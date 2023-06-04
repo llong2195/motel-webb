@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Grow,
@@ -21,7 +21,7 @@ import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
 import Pagination from '../Pagination';
 import useStyles from './styles';
-
+import * as db from './../../actions/db'
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -42,10 +42,24 @@ const Home = () => {
   const [address, setaddress] = React.useState('');
   const [minPrice, setminPrice] = React.useState('');
   const [maxPrice, setmaxPrice] = React.useState('');
-
+  const [province, setProvince] = useState({
+    idProvince: '01',
+    name: 'Thành phố Hà Nội',
+  });
+  const [district, setDistrict] = useState({
+    idProvince: '01',
+    idDistrict: '001',
+    name: 'Quận Ba Đình',
+  });
+  console.log(address);
   const handleChange = (event) => {
     setTypePost(event.target.value);
   };
+  useEffect(() => {
+    setaddress(`${district?.name ? district?.name : ''
+      },${province?.name ? province?.name : ''}` || undefined,);
+  }, [district, province])
+
   const searchPost = () => {
     if (search.trim() || tags) {
       dispatch(
@@ -106,6 +120,30 @@ const Home = () => {
                   <MenuItem value={1}>Tìm phòng</MenuItem>
                 </Select>
               </FormControl>
+
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={province?.idProvince ?? '01'}
+                label="Loại bài đăng"
+                onChange={(e) => { setProvince(db.vn.province.filter(i => i.idProvince == e.target.value)[0]); setDistrict('') }}
+              >
+                {db.vn.province.map((city) => {
+                  return <MenuItem value={city.idProvince}>{city.name}</MenuItem>
+                })}
+
+              </Select>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={district?.idDistrict}
+                label="Loại bài đăng"
+                onChange={(e) => { setDistrict(db.vn.district.filter(i => i.idDistrict == e.target.value)[0]); }}
+              >
+                {db.vn.district.filter(i => i.idProvince === province?.idProvince).map(dis => {
+                  return <MenuItem value={dis.idDistrict}>{dis.name}</MenuItem>
+                })}
+              </Select>
               <TextField
                 onKeyDown={handleKeyPress}
                 name="title"
@@ -116,16 +154,7 @@ const Home = () => {
                 onChange={(e) => settitle(e.target.value)}
                 style={{ marginTop: 10 }}
               />
-              <TextField
-                onKeyDown={handleKeyPress}
-                name="address"
-                variant="outlined"
-                label="Địa chỉ"
-                fullWidth
-                value={address}
-                onChange={(e) => setaddress(e.target.value)}
-                style={{ marginTop: 10 }}
-              />
+
               <div style={{ marginTop: 10, display: 'flex', gap: 10 }}>
                 <TextField
                   onKeyDown={handleKeyPress}
@@ -173,7 +202,7 @@ const Home = () => {
           </Grid>
         </Grid>
       </Container>
-    </Grow>
+    </Grow >
   );
 };
 
