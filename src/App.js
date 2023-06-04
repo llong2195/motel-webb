@@ -7,6 +7,7 @@ import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
 import Auth from './components/Auth/Auth';
 import Creator from './components/Creator/Creator';
+import Profile from './components/Creator/Profile';
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem('profile'));

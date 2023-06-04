@@ -12,7 +12,7 @@ import useStyles from '../styles';
 import Post from '../Posts/Post/Post';
 import { getPostsByCreator, getPostsBySearch } from '../../actions/posts';
 
-const Creator = () => {
+const Profile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { posts, isLoading } = useSelector((state) => state.posts);
@@ -53,4 +53,4 @@ const Creator = () => {
   );
 };
 
-export default Creator;
+export default Profile;
