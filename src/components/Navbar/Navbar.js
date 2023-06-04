@@ -50,13 +50,15 @@ const Navbar = () => {
       <Toolbar className={classes.toolbar}>
         {user ? (
           <div className={classes.profile}>
-            <Avatar
-              className={classes.purple}
-              alt={user?.name}
-              src={user?.imageUrl}
-            >
-              {user?.name?.charAt(0)}
-            </Avatar>
+            <Link to={`/profile/${user?.id}`} style={{ textDecoration: 'none' }}>
+              <Avatar
+                className={classes.purple}
+                alt={user?.name}
+                src={user?.avatar}
+              >
+                {user?.name?.charAt(0)}
+              </Avatar>
+            </Link>
             <Typography className={classes.userName} variant="h6">
               {user?.name}
             </Typography>

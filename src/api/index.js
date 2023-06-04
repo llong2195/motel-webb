@@ -17,10 +17,10 @@ export const fetchPost = (id) => {
   return API.get(`/post?userId=${user?.id || 0}&code=${user?.code || 0}&limit=0&page=0&id=${id}`);
 }
 export const fetchPosts = (page, status = 0) => {
-  return API.get(`/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8`);
+  return API.get(`/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8&status=0`);
 }
-export const fetchPostsByCreator = (name) =>
-  API.get(`/post/creator?name=${name}`);
+export const fetchPostsByCreator = (id) =>
+  API.get(`/post?userId=${user?.id || 0}&code=${user?.code || 0}&authorId=${id}`);
 export const fetchPostsBySearch = (
   page = 1,
   typePost,
@@ -31,7 +31,7 @@ export const fetchPostsBySearch = (
   status = 0,
 ) =>
   API.get(
-    `/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8&postType=${typePost}&title=${title}&address=${address}&minPrice=${minPrice}&maxPrice=${maxPrice}&status=${status}`,
+    `/post?userId=${user?.id || 0}&code=${user?.code || 0}&page=${page}&limit=8&postType=${typePost}${title ?? `&title=${title}`}${address ?? `&address=${address}`}${minPrice ?? `&minPrice=${minPrice}`}${maxPrice ?? `&maxPrice=${maxPrice}`}&status=${status}`
   );
 export const createPost = (newPost) => API.post('/post', newPost);
 export const likePost = (id) => API.patch(`/post/${id}/likePost`);

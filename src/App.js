@@ -6,7 +6,7 @@ import PostDetails from './components/PostDetails/PostDetails';
 import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
 import Auth from './components/Auth/Auth';
-import CreatorOrTag from './components/CreatorOrTag/CreatorOrTag';
+import Creator from './components/Creator/Creator';
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -21,8 +21,12 @@ const App = () => {
           <Route path="/post/search" exact component={Home} />
           <Route path="/post/:id" exact component={PostDetails} />
           <Route
-            path={['/creators/:name', '/tags/:name']}
-            component={CreatorOrTag}
+            path={['/creators/:id']}
+            component={Creator}
+          />
+          <Route
+            path={['/profile/:id']}
+            component={Profile}
           />
           <Route
             path="/auth"
